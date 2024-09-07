@@ -9,6 +9,8 @@ services:
     env_file:
       - .env.local
     tty: true
+    ports:
+      - "8002:8000"
     links:
       - db
     depends_on:
