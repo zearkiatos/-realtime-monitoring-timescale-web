@@ -23,3 +23,9 @@ migration:
 
 migrate:
 	python3 manage.py migrate
+
+docker-dev-up:
+	docker compose -f=docker-compose.local.yaml up --build
+
+docker-dev-down:
+	docker compose -f=docker-compose.local.yaml down

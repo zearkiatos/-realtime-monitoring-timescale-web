@@ -1,0 +1,24 @@
+services:
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: realtime-monitoring-timescale
+    volumes:
+      - ".:/app"
+    env_file:
+      - .env.local
+    tty: true
+    links:
+      - db
+    depends_on:
+      - db
+  db:
+    image: postgres
+    env_file:
+      - .env.db
+    container_name: realtime-monitoring-timescale-db
+    volumes:
+      - "./data/postgres:/var/lib/postgresql"
+    ports:
+      - "5434:5432"
