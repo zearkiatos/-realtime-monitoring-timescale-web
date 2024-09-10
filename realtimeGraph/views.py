@@ -491,6 +491,26 @@ La respuesta tiene esta estructura:
 }
 """
 
+def get_average_by_date(request, **kwargs):
+    data_result = []
+    selectedData = None
+    dateParam = kwargs.get("date", None)
+
+    if dateParam != None:
+        selectedData = Data.objects.filter(base_time__gte=dateParam).values('measurement__name').annotate(average=Avg('avg_value'))
+    else:
+        selectedData = Data.objects.filter(base_time__gte=datetime.now())
+
+    for item in selectedData:
+        data = {
+            'measurement': item['measurement__name'],
+            'average': item['average']
+        }
+        data_result.append(data)
+
+
+    return JsonResponse(data_result, safe=False)
+
 
 def get_map_json(request, **kwargs):
     data_result = {}
